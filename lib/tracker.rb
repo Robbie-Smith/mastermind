@@ -9,7 +9,6 @@ class Tracker
     end
 
     def time_in_seconds
-      # binding.pry
       (@time.min * 60) + @time.sec
     end
 
@@ -21,7 +20,6 @@ class Tracker
       if seconds < 3600
         Time.at(seconds).strftime "%M:%S"
       else
-        binding.pry
         hour = seconds / 3600
         "#{hour}:#{Time.at(seconds).strftime "%M:%S"}"
       end
