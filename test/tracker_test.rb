@@ -17,10 +17,17 @@ class TestTracker < Minitest::Test
   end
 
   def test_elapsed_time_in_minute_second_format
-    assert_equal "00:00", @track.elapsed_time(0)
-    assert_equal "16:40", @track.elapsed_time(1000)
-    assert_equal "2:46:40", @track.elapsed_time(10000)
-    assert_equal "3:25:45", @track.elapsed_time(12345)
+    @track.seconds_formatter(0)
+    assert_equal "00:00", @track.elapsed_time
+
+    @track.seconds_formatter(1000)
+    assert_equal "16:40", @track.elapsed_time
+
+    @track.seconds_formatter(10000)
+    assert_equal "2:46:40", @track.elapsed_time
+
+    @track.seconds_formatter(12345)
+    assert_equal "3:25:45", @track.elapsed_time
   end
 
 end
