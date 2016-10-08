@@ -13,15 +13,15 @@ class Tracker
     end
 
     def time_difference_calculation
-      elapsed_time(end_time - start_time)
+      seconds_formatter(end_time - start_time)
     end
 
-    def elapsed_time(seconds)
+    def seconds_formatter(seconds)
       if seconds < 3600
-        Time.at(seconds).strftime "%M:%S"
+        @elapsed_time = Time.at(seconds).strftime "%M:%S"
       else
         hour = seconds / 3600
-        "#{hour}:#{Time.at(seconds).strftime "%M:%S"}"
+        @elapsed_time = "#{hour}:#{Time.at(seconds).strftime "%M:%S"}"
       end
     end
 end
