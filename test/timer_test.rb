@@ -1,19 +1,15 @@
 require_relative 'test_helper'
-require './lib/tracker.rb'
+require './lib/timer.rb'
 
-class TestTracker < Minitest::Test
+class TestTimer < Minitest::Test
   def setup
-    @track = Tracker.new
+    @track = Timer.new
   end
 
-  def test_create_start_time_in_seconds
-    @track.time_in_seconds
-    assert_equal @track.time_in_seconds, @track.start_time
-  end
-
-  def test_create_end_time_in_seconds
-    @track.time_in_seconds
-    assert_equal @track.time_in_seconds, @track.end_time
+  def test_create_time_in_seconds
+    @track.start_time = Time.new
+    @track.time_to_seconds
+    assert_equal @track.time_to_seconds, @track.start_time_convert
   end
 
   def test_elapsed_time_in_minute_second_format
