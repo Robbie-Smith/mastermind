@@ -7,23 +7,24 @@ class TestTimer < Minitest::Test
   end
 
   def test_create_time_in_seconds
-    @track.start_time = Time.new
-    @track.time_to_seconds
-    assert_equal @track.time_to_seconds, @track.start_time_convert
+    refute @track.start_game
+    @track.start_game = true
+    assert @track.start_game
+    assert_equal @track.time_to_seconds, @track.time_convert
   end
 
   def test_elapsed_time_in_minute_second_format
     @track.seconds_formatter(0)
-    assert_equal "00:00", @track.elapsed_time
+    assert_equal "00 minutes and 00 seconds", @track.elapsed_time
 
     @track.seconds_formatter(1000)
-    assert_equal "16:40", @track.elapsed_time
+    assert_equal "16 minutes and 40 seconds", @track.elapsed_time
 
     @track.seconds_formatter(10000)
-    assert_equal "2:46:40", @track.elapsed_time
+    assert_equal "2 hours and 46 minutes and 40 seconds", @track.elapsed_time
 
     @track.seconds_formatter(12345)
-    assert_equal "3:25:45", @track.elapsed_time
+    assert_equal "3 hours and 25 minutes and 45 seconds", @track.elapsed_time
   end
 
 end
