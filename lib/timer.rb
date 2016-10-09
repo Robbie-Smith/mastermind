@@ -6,7 +6,7 @@ class Timer
       @time = Time.new
       @elapsed_time = nil
       @start_game = false
-      @end_game = nil
+      @end_game = false
     end
 
     def time_convert
