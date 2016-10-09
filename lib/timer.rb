@@ -1,5 +1,3 @@
-require_relative '../lib/code_generator.rb'
-
 class Timer
   attr_accessor :end, :start_time
   attr_reader :elapsed_time
