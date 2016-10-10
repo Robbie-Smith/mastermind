@@ -20,13 +20,13 @@ class Guesser
   end
 
   def check_input_for_validity
-    if @user_input.scan(/[1-9\W]/).empty? == false
+    if user_input.scan(/[1-9\W]/).empty? == false
       @valid_input = false
       "No special characters or numbers."
-    elsif @user_input.length < code.length
+    elsif user_input.length < code.length
       @valid_input = false
       "Your input is to short."
-    elsif @user_input.length > code.length
+    elsif user_input.length > code.length
       @valid_input = false
       "Your input is to long."
     else
@@ -45,23 +45,16 @@ class Guesser
 
   def correct_position_counter
     @correct_position = 0
-    @elements_counted = false
-    @code.chars.each_with_index do |value,index|
-      if value.eql?(@user_input[index])
-        @correct_position += 1
-      elsif @elements_counted.eql?(false)
-        correct_element_counter
-      end
+    code.chars.each_with_index do |value,index|
+      @correct_position += 1 if value.eql?(user_input[index])
     end
+    correct_element_counter
   end
 
   def correct_element_counter
     @correct_elements = 0
-    if @elements_counted.eql?(false)
-      @user_input.chars.uniq.each do |value|
-        @correct_elements += 1 if @code.chars.include?(value)
-      end
-      @elements_counted = true
+      user_input.chars.uniq.each do |value|
+        @correct_elements += 1 if code.chars.include?(value)
     end
   end
 
