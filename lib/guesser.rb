@@ -1,14 +1,18 @@
+require_relative "code_generator"
+require_relative "responses"
 class Guesser
+  include Responses
+  include CodeGenerator
 
-  attr_accessor :code, :user_input
-  attr_reader :correct_code, :correct_elements, :correct_position
-  alias_method :correct_code?, :correct_code
+  attr_accessor :user_input
+  attr_reader :correct_code, :valid_input, :code, :element_holder
+  alias_method :correct_code?,:correct_code
 
   def initialize
-    @code = code
+    @code = CodeGenerator.generate
     @correct_code = false
-    @user_input = user_input
     @valid_input = nil
+    @user_input = nil
   end
 
   def start
@@ -20,18 +24,29 @@ class Guesser
   end
 
   def check_input_for_validity
-    if user_input.scan(/[1-9\W]/).empty? == false
-      @valid_input = false
-      "No special characters or numbers."
-    elsif user_input.length < code.length
-      @valid_input = false
-      "Your input is to short."
-    elsif user_input.length > code.length
-      @valid_input = false
-      "Your input is to long."
-    else
+    # binding.pry
+    check_input_for_correct_characters
+    check_input_for_correct_length
+    if @valid_input.nil?
       @valid_input = true
       start
+    end
+  end
+
+  def check_input_for_correct_characters
+    if user_input.scan(/[1-9\W]/).empty? == false
+      Responses.guess_response_1
+      @valid_input = false
+    end
+  end
+
+  def check_input_for_correct_length
+    if user_input.length < code.length
+      Responses.guess_response_2
+      @valid_input = false
+    elsif user_input.length > code.length
+      Responses.guess_response_3
+      @valid_input = false
     end
   end
 
@@ -44,17 +59,18 @@ class Guesser
   end
 
   def correct_position_counter
-    @correct_position = 0
+    @element_holder = {position: 0, element: 0}
     code.chars.each_with_index do |value,index|
-      @correct_position += 1 if value.eql?(user_input[index])
+     if value.eql?(user_input[index])
+       @element_holder[:position]+= 1
+     end
     end
-    correct_element_counter
+    correct_element_counter(element_holder)
   end
 
-  def correct_element_counter
-    @correct_elements = 0
-      user_input.chars.uniq.each do |value|
-        @correct_elements += 1 if code.chars.include?(value)
+  def correct_element_counter(correct_position)
+    user_input.chars.uniq.each do |value|
+      @element_holder[:element] += 1 if code.chars.include?(value)
     end
   end
 
