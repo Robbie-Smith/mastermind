@@ -1,9 +1,11 @@
 class Timer
   attr_accessor :start_game, :end_game, :time
-  attr_reader :elapsed_time
+  attr_reader :elapsed_time, :start_time, :end_time
 
     def initialize
       @time = Time.new
+      @start_time = nil
+      @end_time = nil
       @elapsed_time = nil
       @start_game = false
       @end_game = false
