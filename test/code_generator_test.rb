@@ -3,7 +3,11 @@ require './lib/code_generator.rb'
 
 class TestCodeGenerator < Minitest::Test
   def setup
-    @code = CodeGenerator.new
+    @code = CodeGenerator
+  end
+
+  def test
+    assert_kind_of CodeGenerator, @code
   end
 
   def test_can_it_generate_random_4_element_sequence
