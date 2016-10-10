@@ -1,11 +1,9 @@
-class CodeGenerator
-  def initialize
-    @code = ["b","g","r","y"]
-  end
+module CodeGenerator
+  
+  CODE = ["b","g","r","y"]
 
-  def generate(num=4)
-    level = num
-    (@code * 6).shuffle.sample(level).join
+  def self.generate(level=4)
+    (CODE * 6).shuffle.sample(level).join
   end
 
 end
