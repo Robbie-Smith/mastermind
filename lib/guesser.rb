@@ -8,17 +8,17 @@ class Guesser
   attr_reader :correct_code, :valid_input, :code, :element_holder
   alias_method :correct_code?,:correct_code
 
-  def initialize
-    @code = CodeGenerator.generate
+  def initialize(input_code)
+    @code = input_code
     @correct_code = false
     @valid_input = nil
     @user_input = nil
   end
 
   def start
-    if @valid_input.nil?
+    if valid_input.nil?
       check_input_for_validity
-    elsif @valid_input.eql?(true)
+    elsif valid_input.eql?(true)
       check_input_against_code
     end
   end
@@ -27,14 +27,14 @@ class Guesser
     # binding.pry
     check_input_for_correct_characters
     check_input_for_correct_length
-    if @valid_input.nil?
+    if valid_input.nil?
       @valid_input = true
       start
     end
   end
 
   def check_input_for_correct_characters
-    if user_input.scan(/[1-9\W]/).empty? == false
+    if !user_input.scan(/[1-9\W]/).empty?
       Responses.guess_response_1
       @valid_input = false
     end

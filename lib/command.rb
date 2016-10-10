@@ -7,8 +7,9 @@ class Command
   attr_reader :guess, :timer
   attr_accessor :input
 
-  def initialize
-    @guess = Guesser.new
+  def initialize(override_code = nil)
+    code = override_code || CodeGenerator.generate
+    @guess = Guesser.new(code)
     @timer = Timer.new
     @won = false
   end

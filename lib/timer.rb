@@ -1,11 +1,9 @@
 class Timer
   attr_accessor :start_game, :end_game, :time
-  attr_reader :elapsed_time, :start_time, :end_time
+  attr_reader :elapsed_time
 
     def initialize
       @time = Time.new
-      @start_time = nil
-      @end_time = nil
       @elapsed_time = nil
       @start_game = false
       @end_game = false
@@ -31,10 +29,10 @@ class Timer
 
     def seconds_formatter(seconds)
       if seconds < 3600
-        @elapsed_time = Time.at(seconds).strftime("%M minutes and %S seconds")
+        Time.at(seconds).strftime("%M minutes and %S seconds")
       else
         hour = seconds / 3600
-        @elapsed_time = Time.at(seconds).strftime("#{hour} hours and %M minutes and %S seconds")
+        Time.at(seconds).strftime("#{hour} hours and %M minutes and %S seconds")
       end
     end
 
