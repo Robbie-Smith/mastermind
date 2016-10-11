@@ -1,8 +1,7 @@
 require_relative "code_generator"
 require_relative "validate"
 class Guesser
-  include Validator
-
+  
   attr_accessor :user_input
   attr_reader :correct_code, :counter, :code, :element_holder
   alias_method :correct_code?,:correct_code

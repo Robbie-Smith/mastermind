@@ -5,7 +5,6 @@ require_relative "responses"
 require_relative "validate"
 
 class Command
-  include Validator
   include CodeGenerator
   include Responses
 
@@ -16,44 +15,40 @@ class Command
     code = override_code || CodeGenerator.generate
     @guess = Guesser.new(code)
     @timer = Timer.new
+    @validate = Validator.new
     @won = false
+    @previous_input = []
+  end
+
+  def check_input
+    @previous_input << input
+    guess.user_input = input
+    @validate.check_start(guess.user_input,guess.code)
+    start
   end
 
   def start
-    guess.user_input = input
-    time_start if timer.start_game.eql?(false)
-    unless Validator.check_input_for_validity(guess.user_input,guess.code)
+    # binding.pry
+    check_input unless @previous_input.include?(input)
+    if guess.correct_code.eql?(false) && @validate.valid.eql?(true)
+      time_start
       guess.start
       print_guess
-    end
-  end
-
-  def won?
-    if guess.correct_code.eql?(true)
-      time_end
-      print_guess
-      @won = true
+    elsif guess.correct_code.eql?(true)
       game_over
-    elsif guess.counter > 0
-      print_guess
-      start
     end
   end
 
   def game_over
-    if @won.eql?(true)
+    if guess.correct_code.eql?(true)
       elapsed_time = @timer.elapsed_time
       counter = @guess.counter
       Responses.game_end(input,counter,elapsed_time)
-    else
-      puts "Goodbye."
     end
   end
 
   def print_guess
-    if !Validator.check_for_reserved_word(guess.user_input)
       Responses.guess_element_response(guess.user_input,guess.element_holder[:element],guess.element_holder[:position],guess.counter)
-    end
   end
 
   def time_start

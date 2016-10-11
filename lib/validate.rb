@@ -1,30 +1,47 @@
 require_relative "responses"
-module Validator
+class Validator
   include Responses
-  extend self
-  RESERVED_WORDS = ['quit','cheat','q','c',"Q"]
-  def check_input_for_validity(user_input,code)
-    check_input_for_correct_characters(user_input,code)
+
+  attr_reader :valid
+
+  RESERVED_WORDS = ["quit","cheat","q","c"]
+
+  def initialize(input=nil,code=nil)
+    @valid = nil
   end
 
-  def check_input_for_correct_characters(user_input,code)
-    if !user_input.scan(/[1-9\W]/).empty?
+  def check_start(input,code)
+    check_for_reserved_word(input,code)
+  end
+
+  def check_for_reserved_word(input,code)
+    if RESERVED_WORDS.include?(input)
+       @valid = false
+    else
+      check_input_for_correct_characters(input,code)
+    end
+  end
+
+  def check_input_for_correct_characters(input,code)
+    if !input.scan(/[1-9\W]/).empty?
       Responses.guess_response_1
+      @valid = false
+    else
+      @valid = true
+      check_input_for_correct_length(input,code)
     end
-    check_input_for_correct_length(user_input,code)
   end
 
-  def check_input_for_correct_length(user_input,code)
-    if user_input.length < code.length
+  def check_input_for_correct_length(input,code)
+    if input.length < code.length
       Responses.guess_response_2
-    elsif user_input.length > code.length
+      @valid = false
+    elsif input.length > code.length
       Responses.guess_response_3
+      @valid = false
+    else
+      @valid = true
     end
-    check_for_reserved_word(user_input)
-  end
-
-  def check_for_reserved_word(user_input)
-    return false if RESERVED_WORDS.include?(user_input)
   end
 
 end
