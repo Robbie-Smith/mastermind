@@ -41,17 +41,13 @@ class TestGuesser < Minitest::Test
 
   def test_compares_user_input_with_code
     # skip
-    guess = Guesser.new("GGGG")
-    guess.stub :code, code="bgry" do
-      guess.user_input = "bgry"
-      guess.start
-      assert guess.correct_code?
-    end
-    guess.stub :code, code="bgry" do
-      guess.user_input = "rrrr"
-      guess.start
-      assert guess.correct_code?
-    end
+    guess = Guesser.new("bgry")
+    guess.user_input = "bgry"
+    guess.start
+    assert guess.correct_code?
+    guess.user_input = "rrrr"
+    guess.start
+    assert guess.correct_code?
   end
 
   def test_returns_number_of_elements_correct_if_guess_is_wrong
@@ -64,6 +60,7 @@ class TestGuesser < Minitest::Test
   end
 
   def test_returns_number_of_elements_correct_if_guess_is_wrong_2
+    # skip
     guess = Guesser.new("rrry")
     guess.user_input = "brrg"
     guess.start
@@ -82,6 +79,7 @@ class TestGuesser < Minitest::Test
   end
 
   def test_returns_number_of_elements_in_correct_position_2
+    # skip
     guess = Guesser.new("byrg")
 
     guess.user_input = "brrg"
@@ -89,4 +87,25 @@ class TestGuesser < Minitest::Test
     assert_equal 3, guess.element_holder[:position]
     refute guess.correct_code?
   end
+
+  def test_counter_returns_number_of_guesses
+    # skip
+    guess = Guesser.new("byrg")
+    guess.user_input = "brrg"
+    guess.start
+    assert_equal 1, guess.counter
+  end
+
+  def test_counter_returns_greater_than_one_guess
+    # skip
+    guess = Guesser.new("byrg")
+    guess.user_input = "gggg"
+    guess.start
+    guess.user_input = "rrrr"
+    guess.start
+    guess.user_input = "bbbb"
+    guess.start
+    assert_equal 3, guess.counter
+  end
+
 end

@@ -38,15 +38,15 @@ class TestTimer < Minitest::Test
     # skip
     track = Timer.new
 
-    assert_equal "00 minutes and 00 seconds", track.seconds_formatter(0)
+    assert_equal "00 minutes and 00 seconds", track.elapsed_time_creation(0)
 
 
-    assert_equal "16 minutes and 40 seconds", track.seconds_formatter(1000)
+    assert_equal "16 minutes and 40 seconds", track.elapsed_time_creation(1000)
 
 
-    assert_equal "2 hours and 46 minutes and 40 seconds", track.seconds_formatter(10000)
+    assert_equal "2 hours and 46 minutes and 40 seconds", track.elapsed_time_creation(10000)
 
-    assert_equal "3 hours and 25 minutes and 45 seconds", track.seconds_formatter(12345)
+    assert_equal "3 hours and 25 minutes and 45 seconds", track.elapsed_time_creation(12345)
   end
 
 end

@@ -4,7 +4,6 @@ class Timer
 
     def initialize
       @time = Time.new
-      @elapsed_time = nil
       @start_game = false
       @end_game = false
     end
@@ -24,15 +23,15 @@ class Timer
 
     def time_difference_calculation
       seconds = @end_time - @start_time
-      seconds_formatter(seconds)
+      elapsed_time_creation(seconds)
     end
 
-    def seconds_formatter(seconds)
+    def elapsed_time_creation(seconds)
       if seconds < 3600
-        Time.at(seconds).strftime("%M minutes and %S seconds")
+        @elapsed_time = Time.at(seconds).strftime("%M minutes and %S seconds")
       else
         hour = seconds / 3600
-        Time.at(seconds).strftime("#{hour} hours and %M minutes and %S seconds")
+        @elapsed_time = Time.at(seconds).strftime("#{hour} hours and %M minutes and %S seconds")
       end
     end
 

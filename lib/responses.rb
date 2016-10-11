@@ -1,5 +1,11 @@
 module Responses
 extend self
+
+  def welcome
+    puts "Welcome to MASTERMIND!\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
+    print "Enter your command: "
+  end
+
   def guess_response_1
     puts "No special characters or numbers."
   end
@@ -13,26 +19,35 @@ extend self
   end
 
   def game_start
-    puts "I have generated a beginner sequence with four elements made up of: (r)ed,
-    (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.
-    What's your guess?"
+    puts "\nI have generated a beginner sequence with four elements made up of: (r)ed,(g)reen, (b)lue, and (y)ellow.\nUse (q)uit at any time to end the game."
+    print "What's your guess? "
   end
 
-  def guess_element_response
-    puts "'#{input}' has #{@element_holder[:element]} of the correct elements with #{@element_holder[:position]} in the correct positions
-    You've taken #{guess_counter} guess"
+  def guess
+    print "Enter your next guess: "
   end
 
-  def game_end
-    puts "Congratulations! You guessed the sequence '#{input}' in #{@guess_counter} guesses over #{@elapsed_time}.\n
-    Do you want to (p)lay again or (q)uit?"
+  def game_end(input,counter,elapsed_time)
+    counter.eql?(1) ? guess = "guess" : guess = "guesses"
+    puts "\nCongratulations! You guessed the sequence '#{input.upcase}' in #{counter} #{guess} over #{elapsed_time}."
+
+    print "Do you want to (p)lay again or (q)uit? "
   end
+
+  def guess_element_response(input,element,position,counter)
+    counter.eql?(1) ? guess = "guess" : guess = "guesses"
+    if input.chars.include?('b') || input.chars.include?('y') || input.chars.include?('r')|| input.chars.include?('g')
+      puts "\n'#{input.upcase}' has #{element} of the correct elements with #{position} in the correct positions.\nYou've taken #{counter} guess."
+    end
+  end
+
 
   def instructions
-    #print out a short explanation of how the game is played
+    puts "\nThe goal of mastermind is guess the the secret code.
+     Easy mode: Four color combinations
+     Medium mode: Five color combinations
+     Hard mode: Six color combinatins.
+     You could also type 'cheat' or 'c' to see the code."
   end
 
-  def cheat
-    #show the current code
-  end
 end
