@@ -9,6 +9,11 @@ extend self
     puts "\nEnter your command below:"
     print "> "
   end
+  
+  def guess
+    puts "\nEnter your guess below:"
+    print "> "
+  end
 
   def guess_response_1
     puts "No special characters or numbers."
@@ -26,22 +31,19 @@ extend self
     puts "\nI have generated a beginner sequence with four elements made up of: (r)ed,(g)reen, (b)lue, and (y)ellow.\nUse (q)uit at any time to end the game.\n"
   end
 
-  def guess
-    puts "\nEnter your guess below:"
-    print "> "
-  end
 
   def game_end(input,counter,elapsed_time)
-    proper_grammer(counter)
+    guess = proper_grammer(counter)
     puts "\nCongratulations! You guessed the sequence '#{input.upcase}' in #{counter} #{guess} over #{elapsed_time}."
     print "Do you want to play again or quit? p/q "
   end
 
   def guess_element_response(input,element,position,counter)
-    proper_grammer(counter)
+    guess = proper_grammer(counter)
     if input.chars.each {|letter| true if letter.eql?(input)}
-      puts "\n'#{input.upcase}' has #{element} of the correct elements with #{position} in the correct positions.\nYou've taken #{counter} guess.\n"
+      puts "\n'#{input.upcase}' has #{element} of the correct elements with #{position} in the correct positions.\nYou've taken #{counter} #{guess}.\n"
     end
+    # binding.pry
   end
 
   def proper_grammer(counter)

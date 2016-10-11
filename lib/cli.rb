@@ -7,44 +7,65 @@ class Repl
 
   def initialize
     @command = Command.new
+    @game_on = false
     welcome
   end
 
   def welcome
     Responses.welcome
-    game_started = false
-    start_sequence(game_started=false)
+    start_sequence(correct_response)
   end
 
-  def start_sequence(input=nil,game_started)
-    # binding.pry
-    correct_command(game_started)
-    input_setter
+  def start_sequence(input=nil)
     input = @command.input
-    if input.eql?("play") || input.eql?("p")
-      play(input=nil,game_started)
-    elsif input.eql?("quit") || input.eql?("q")
+    if input.eql?("quit") || input.eql?("q")
       quit(input)
     elsif input.eql?("instructions") || input.eql?("i")
       Responses.instructions
-      start_sequence(input=nil,game_started)
+      @game_on = false
+      welcome
     elsif input.eql?("cheat") || input.eql?("c")
-      puts @command.guess.code.upcase
-      play(input=nil,game_started)
-    elsif @command.guess.correct_code.eql?(false)
-      play(input,game_started)
-    elsif @command.guess.correct_code.eql?(true)
-      end_flow
+      puts (@command.guess.code).upcase
+      play(input=nil)
+    elsif @game_on.eql?(true)
+      play(input=nil)
+    elsif input.eql?("play") || input.eql?("p")
+      play(input=nil)
     else
       welcome
     end
   end
 
-  def correct_command(game_started)
-    if game_started.eql?(false)
-      Responses.command
-    else
+  def play(input=nil)
+    if @game_on.eql?(false)
+      @game_on = true
+      Responses.game_start
+      correct_response
+      @command.check_input
+    elsif @game_on.eql?(true)
+      correct_response
+      @command.check_input
+    elsif @command.guess.correct_code.eql?(true)
+      end_flow(input)
+    end
+    code_check
+  end
+
+  def code_check
+    if @command.guess.correct_code.eql?(true)
+      end_flow
+    elsif @command.guess.correct_code.eql?(false)
+      start_sequence
+    end
+  end
+
+  def correct_response
+    if @game_on.eql?(true)
       Responses.guess
+      input = input_setter
+    elsif @game_on.eql?(false)
+      Responses.command
+      input = input_setter
     end
   end
 
@@ -52,30 +73,28 @@ class Repl
     @command.input = gets.chomp.downcase
   end
 
-  def play(input=nil,game_started)
-    # binding.pry
-    quit(input)
-    if game_started.eql?(false)
-      game_started = true
-      Responses.game_start
-      Responses.guess
-      input_setter
-      @command.check_input
-    elsif game_started.eql?(true)
-      @command.check_input
-    elsif @command.guess.correct_code.eql?(true)
-      end_flow
+  def end_flow
+    @game_on = false
+    response = correct_response
+    if response.eql?('p') || response.eql?('p')
+      reset_variables
+    elsif response.eql?('q') || response.eql?('quit')
+      quit(response)
     end
-    start_sequence(input,game_started)
   end
 
-  def end_flow
-    Responses.game_end
+  def reset_variables
+    @command.guess.counter = 0
+    @command.guess.correct_code = false
+    @command.timer.start_game = false
+    @command.timer.end_game = false
+    @command.guess.code = CodeGenerator.generate
     start_sequence
   end
 
   def quit(input)
     if input.eql?('q') || input.eql?('quit')
+      @game_on = false
       puts "Goodbye."
     end
   end
