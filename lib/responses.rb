@@ -1,5 +1,22 @@
+require 'colorize'
 module Responses
-extend self
+  extend self
+  include Colorize
+
+  def welcome
+    puts "Welcome to MASTERMIND!\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
+  end
+
+  def command
+    puts "\nEnter your command below:".red
+    print "> ".green.bold
+  end
+
+  def guess
+    puts "\nEnter your guess below:".red
+    print "> ".green
+  end
+
   def guess_response_1
     puts "No special characters or numbers."
   end
@@ -13,26 +30,38 @@ extend self
   end
 
   def game_start
-    puts "I have generated a beginner sequence with four elements made up of: (r)ed,
-    (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.
-    What's your guess?"
+    red = '(r)ed'.red
+    green = '(g)reen'.green
+    blue = '(b)lue'.cyan
+    yellow = "(y)ellow".yellow
+    puts "\nI have generated a beginner sequence with four elements made up of: #{red},#{green},#{blue}, & #{yellow}.\nUse (q)uit at any time to end the game.\n"
   end
 
-  def guess_element_response
-    puts "'#{input}' has #{@element_holder[:element]} of the correct elements with #{@element_holder[:position]} in the correct positions
-    You've taken #{guess_counter} guess"
+  def game_end(input,counter,elapsed_time)
+    guess = proper_grammer(counter)
+    puts "\nCongratulations! You guessed the sequence '#{input.upcase}' in #{counter} #{guess} over #{elapsed_time}."
+    print "Do you want to play again or quit? p/q "
   end
 
-  def game_end
-    puts "Congratulations! You guessed the sequence '#{input}' in #{@guess_counter} guesses over #{@elapsed_time}.\n
-    Do you want to (p)lay again or (q)uit?"
+  def guess_element_response(input,element,position,counter)
+    guess = proper_grammer(counter)
+    if input.chars.each {|letter| true if letter.eql?(input)}
+      puts "\n'#{input.upcase}' has #{element} of the correct elements with #{position} in the correct position.\nYou've taken #{counter} #{guess}.\n"
+    end
+    # binding.pry
+  end
+
+  def proper_grammer(counter)
+    if counter.eql?(1)
+      guess = "guess"
+    else
+      guess = "guesses"
+    end
   end
 
   def instructions
-    #print out a short explanation of how the game is played
+    puts "The goal of mastermind is guess the the secret code.\nYou will start with four color combinations: Blue, Red, Green, Yellow.\nYou could also type 'cheat' or 'c' to see the code."
   end
 
-  def cheat
-    #show the current code
-  end
+
 end
