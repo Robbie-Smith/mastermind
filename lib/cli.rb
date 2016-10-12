@@ -1,7 +1,7 @@
 require_relative "command"
 require_relative "responses"
 require 'pry'
-
+require 'Kimble'
 class Repl
   include Responses
 
@@ -95,7 +95,7 @@ class Repl
   def quit(input)
     if input.eql?('q') || input.eql?('quit')
       @game_on = false
-      puts "Goodbye."
+      puts Kimble.quote
     end
   end
 

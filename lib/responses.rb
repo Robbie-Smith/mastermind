@@ -9,7 +9,7 @@ extend self
     puts "\nEnter your command below:"
     print "> "
   end
-  
+
   def guess
     puts "\nEnter your guess below:"
     print "> "
@@ -41,7 +41,7 @@ extend self
   def guess_element_response(input,element,position,counter)
     guess = proper_grammer(counter)
     if input.chars.each {|letter| true if letter.eql?(input)}
-      puts "\n'#{input.upcase}' has #{element} of the correct elements with #{position} in the correct positions.\nYou've taken #{counter} #{guess}.\n"
+      puts "\n'#{input.upcase}' has #{element} of the correct elements with #{position} in the correct position.\nYou've taken #{counter} #{guess}.\n"
     end
     # binding.pry
   end

@@ -13,7 +13,7 @@ class Command
 
   def initialize(override_code = nil)
     code = override_code || CodeGenerator.generate
-    @guess = Guesser.new("gggg")
+    @guess = Guesser.new(code)
     @timer = Timer.new
     @validate = Validator.new
     @previous_input = []
