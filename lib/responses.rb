@@ -1,18 +1,20 @@
+require 'colorize'
 module Responses
-extend self
+  extend self
+  include Colorize
 
   def welcome
     puts "Welcome to MASTERMIND!\nWould you like to (p)lay, read the (i)nstructions, or (q)uit?"
   end
 
   def command
-    puts "\nEnter your command below:"
-    print "> "
+    puts "\nEnter your command below:".red
+    print "> ".green.bold
   end
 
   def guess
-    puts "\nEnter your guess below:"
-    print "> "
+    puts "\nEnter your guess below:".red
+    print "> ".green
   end
 
   def guess_response_1
@@ -28,9 +30,12 @@ extend self
   end
 
   def game_start
-    puts "\nI have generated a beginner sequence with four elements made up of: (r)ed,(g)reen, (b)lue, and (y)ellow.\nUse (q)uit at any time to end the game.\n"
+    red = '(r)ed'.red
+    green = '(g)reen'.green
+    blue = '(b)lue'.cyan
+    yellow = "(y)ellow".yellow
+    puts "\nI have generated a beginner sequence with four elements made up of: #{red},#{green},#{blue}, & #{yellow}.\nUse (q)uit at any time to end the game.\n"
   end
-
 
   def game_end(input,counter,elapsed_time)
     guess = proper_grammer(counter)

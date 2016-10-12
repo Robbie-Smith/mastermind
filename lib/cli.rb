@@ -95,7 +95,7 @@ class Repl
   def quit(input)
     if input.eql?('q') || input.eql?('quit')
       @game_on = false
-      puts Kimble.quote
+      puts Kimble.quote.light_cyan
     end
   end
 

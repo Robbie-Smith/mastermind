@@ -9,36 +9,6 @@ class TestGuesser < Minitest::Test
     assert_equal 4, guess.code.length
   end
 
-  def test_checks_input_only_includes_alpha_characters
-    # skip
-    guess = Guesser.new("GGGG")
-    guess.user_input = 'bg76*'
-    guess.check_input_for_validity
-    refute guess.valid_input
-  end
-
-  def test_input_is_correct_length_and_contains_correct_characters
-    # skip
-    guess = Guesser.new("GGGG")
-    guess.user_input ='yyyy'
-    guess.check_input_for_validity
-    assert guess.valid_input
-  end
-
-  def test_input_contains_invalid_characters_or_improper_length
-    # skip
-    guess = Guesser.new("GGGG")
-    guess.user_input ='bgr'
-    guess.check_input_for_validity
-    refute_equal guess.code.length, guess.user_input.length
-    refute guess.valid_input
-
-    guess.user_input = "bgryk"
-    guess.check_input_for_validity
-    refute_equal guess.code.length, guess.user_input.length
-    refute guess.valid_input
-  end
-
   def test_compares_user_input_with_code
     # skip
     guess = Guesser.new("bgry")

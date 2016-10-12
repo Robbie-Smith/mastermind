@@ -39,27 +39,30 @@ class Command
     end
   end
 
+  def time_start
+    if timer.start_game.eql?(false)
+      timer.start_game = true
+      timer.time_convert
+    end
+  end
+
+  def print_guess
+    element = guess.element_holder[:element]
+    position = guess.element_holder[:position]
+    counter = guess.counter
+    if guess.correct_code.eql?(false)
+      Responses.guess_element_response(guess.user_input,element,position,counter)
+    elsif guess.correct_code.eql?(true)
+      game_over
+    end
+  end
+
   def game_over
     if guess.correct_code.eql?(true)
       time_end
       elapsed_time = @timer.elapsed_time
       counter = @guess.counter
       Responses.game_end(input,counter,elapsed_time)
-    end
-  end
-
-  def print_guess
-    if guess.correct_code.eql?(false)
-      Responses.guess_element_response(guess.user_input,guess.element_holder[:element],guess.element_holder[:position],guess.counter)
-    elsif guess.correct_code.eql?(true)
-      game_over
-    end
-  end
-
-  def time_start
-    if timer.start_game.eql?(false)
-      timer.start_game = true
-      timer.time_convert
     end
   end
 
