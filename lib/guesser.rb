@@ -1,13 +1,11 @@
-require_relative "code_generator"
-require_relative "validate"
 class Guesser
 
   attr_accessor :user_input, :counter, :code, :correct_code
   attr_reader  :element_holder
   alias_method :correct_code?,:correct_code
 
-  def initialize(input_code)
-    @code = input_code
+  def initialize
+    @code = code
     @correct_code = false
     @user_input = nil
     @counter = 0
