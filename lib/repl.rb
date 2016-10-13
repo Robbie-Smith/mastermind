@@ -22,16 +22,39 @@ class Repl
     if input.eql?("quit") || input.eql?("q")
       quit(input)
     elsif input.eql?("instructions") || input.eql?("i")
-      Responses.instructions
-      @game_on = false
-      welcome
+      instructions
     elsif input.eql?("cheat") || input.eql?("c")
-      puts (@controller.guess.code).upcase.light_green.bold
-      play
+      cheat
     elsif play_command_check(input)
     else
       welcome
     end
+  end
+
+  def correct_response
+    if @game_on.eql?(true)
+      Responses.guess
+      input = input_setter
+    elsif @game_on.eql?(false)
+      Responses.command
+      input = input_setter
+    end
+  end
+
+  def input_setter
+    @controller.input = gets.chomp.downcase
+  end
+
+  def instructions
+    Responses.instructions
+    @game_on = false
+    welcome
+  end
+
+  def cheat
+    puts "Here is your cheat code: "
+    print (@controller.guess.code).upcase.light_green.bold
+    play
   end
 
   def play_command_check(input)
@@ -69,24 +92,10 @@ class Repl
     end
   end
 
-  def correct_response
-    if @game_on.eql?(true)
-      Responses.guess
-      input = input_setter
-    elsif @game_on.eql?(false)
-      Responses.command
-      input = input_setter
-    end
-  end
-
-  def input_setter
-    @controller.input = gets.chomp.downcase
-  end
-
   def end_flow
     @game_on = false
     response = correct_response
-    if !response.eql?('q') || !response.eql?('quit')
+    if response.eql?('p') || response.eql?('play')
       reset_variables
     elsif response.eql?('q') || response.eql?('quit')
       quit(response)
@@ -100,7 +109,7 @@ class Repl
     @controller.timer.end_game = false
     @controller.rows = []
     @controller.guess.code = CodeGenerator.generate
-    start_sequence
+    welcome
   end
 
   def quit(input)
@@ -112,3 +121,5 @@ class Repl
   end
 
 end
+
+Repl.new

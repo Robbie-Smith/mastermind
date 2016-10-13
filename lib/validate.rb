@@ -2,11 +2,11 @@ require_relative "responses"
 class Validator
   include Responses
 
-  attr_reader :valid
+  attr_accessor :valid
   alias_method :valid?, :valid
 
-  RESERVED_WORDS = ["quit","cheat","q","c"]
-
+  RESERVED_WORDS = ["quit","cheat","q","c","p",
+                    "play","i","instuctions"]
   def initialize
     @valid = false
   end
@@ -17,7 +17,7 @@ class Validator
 
   def check_for_reserved_word(input,code)
     if RESERVED_WORDS.include?(input)
-      false
+      @valid = false
     else
       check_input_for_correct_characters(input,code)
     end
@@ -33,6 +33,7 @@ class Validator
 
   def check_input_for_correct_length(input,code)
     if input.length < code.length
+      @valid = false
       Responses.guess_response_2
     elsif input.length > code.length
       Responses.guess_response_3
