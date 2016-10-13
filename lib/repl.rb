@@ -1,12 +1,13 @@
-require_relative "command"
+require_relative "controller"
 require_relative "responses"
 require 'pry'
 require 'Kimble'
+require 'Colorize'
 class Repl
   include Responses
 
   def initialize
-    @command = Command.new
+    @controller = Controller.new
     @game_on = false
     welcome
   end
@@ -17,7 +18,7 @@ class Repl
   end
 
   def start_sequence(input=nil)
-    input = @command.input
+    input = @controller.input
     if input.eql?("quit") || input.eql?("q")
       quit(input)
     elsif input.eql?("instructions") || input.eql?("i")
@@ -25,36 +26,45 @@ class Repl
       @game_on = false
       welcome
     elsif input.eql?("cheat") || input.eql?("c")
-      puts (@command.guess.code).upcase
-      play(input=nil)
-    elsif @game_on.eql?(true)
-      play(input=nil)
-    elsif input.eql?("play") || input.eql?("p")
-      play(input=nil)
+      puts (@controller.guess.code).upcase.light_green.bold
+      play
+    elsif play_command_check(input)
     else
       welcome
     end
   end
 
-  def play(input=nil)
+  def play_command_check(input)
+    if input.eql?('medium') || input.eql?('m')
+      @controller.guess.code = CodeGenerator.generate(level=5)
+      play(input='medium')
+    elsif input.eql?('hard') || input.eql?('h')
+      @controller.guess.code = CodeGenerator.generate(level=6)
+      play(input='hard')
+    elsif @game_on.eql?(true)
+      play
+    elsif input.eql?("play") || input.eql?("p")
+      play
+    end
+  end
+
+  def play(input='beginner')
     if @game_on.eql?(false)
       @game_on = true
-      Responses.game_start
+      Responses.game_start(input)
       correct_response
-      @command.check_input
+      @controller.check_input
     elsif @game_on.eql?(true)
       correct_response
-      @command.check_input
-    elsif @command.guess.correct_code.eql?(true)
-      end_flow(input)
+      @controller.check_input
     end
     code_check
   end
 
   def code_check
-    if @command.guess.correct_code.eql?(true)
+    if @controller.guess.correct_code.eql?(true)
       end_flow
-    elsif @command.guess.correct_code.eql?(false)
+    elsif @controller.guess.correct_code.eql?(false)
       start_sequence
     end
   end
@@ -70,13 +80,13 @@ class Repl
   end
 
   def input_setter
-    @command.input = gets.chomp.downcase
+    @controller.input = gets.chomp.downcase
   end
 
   def end_flow
     @game_on = false
     response = correct_response
-    if response.eql?('p') || response.eql?('p')
+    if !response.eql?('q') || !response.eql?('quit')
       reset_variables
     elsif response.eql?('q') || response.eql?('quit')
       quit(response)
@@ -84,11 +94,12 @@ class Repl
   end
 
   def reset_variables
-    @command.guess.counter = 0
-    @command.guess.correct_code = false
-    @command.timer.start_game = false
-    @command.timer.end_game = false
-    @command.guess.code = CodeGenerator.generate
+    @controller.guess.counter = 0
+    @controller.guess.correct_code = false
+    @controller.timer.start_game = false
+    @controller.timer.end_game = false
+    @controller.rows = []
+    @controller.guess.code = CodeGenerator.generate
     start_sequence
   end
 
@@ -96,9 +107,8 @@ class Repl
     if input.eql?('q') || input.eql?('quit')
       @game_on = false
       puts Kimble.quote.light_cyan
+      exit
     end
   end
 
 end
-
-Repl.new
