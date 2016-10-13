@@ -31,6 +31,20 @@ class Repl
     end
   end
 
+  def correct_response
+    if @game_on.eql?(true)
+      Responses.guess
+      input = input_setter
+    elsif @game_on.eql?(false)
+      Responses.command
+      input = input_setter
+    end
+  end
+
+  def input_setter
+    @controller.input = gets.chomp.downcase
+  end
+
   def instructions
     Responses.instructions
     @game_on = false
@@ -78,20 +92,6 @@ class Repl
     end
   end
 
-  def correct_response
-    if @game_on.eql?(true)
-      Responses.guess
-      input = input_setter
-    elsif @game_on.eql?(false)
-      Responses.command
-      input = input_setter
-    end
-  end
-
-  def input_setter
-    @controller.input = gets.chomp.downcase
-  end
-
   def end_flow
     @game_on = false
     response = correct_response
@@ -108,7 +108,7 @@ class Repl
     @controller.timer.start_game = false
     @controller.timer.end_game = false
     @controller.rows = []
-    @controller.guess.code = CodeGenerator.generate(level=4)
+    @controller.guess.code = CodeGenerator.generate
     welcome
   end
 

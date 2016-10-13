@@ -50,7 +50,6 @@ class Controller
   end
 
   def print_guess
-    # binding.pry
     if guess.correct_code.eql?(false) && @validate.valid.eql?(true)
       element = guess.element_holder[:element]
       position = guess.element_holder[:position]
