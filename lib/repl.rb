@@ -14,11 +14,11 @@ class Repl
 
   def welcome
     Responses.welcome
-    start_sequence(correct_response)
+    start_sequence
   end
 
   def start_sequence(input=nil)
-    input = @controller.input
+    input = correct_response
     if input.eql?("quit") || input.eql?("q")
       quit(input)
     elsif input.eql?("instructions") || input.eql?("i")
@@ -35,15 +35,14 @@ class Repl
   end
 
   def play_command_check(input)
+    # binding.pry
     if input.eql?('medium') || input.eql?('m')
       @controller.guess.code = CodeGenerator.generate(level=5)
       play(input='medium')
     elsif input.eql?('hard') || input.eql?('h')
       @controller.guess.code = CodeGenerator.generate(level=6)
       play(input='hard')
-    elsif @game_on.eql?(true)
-      play
-    elsif input.eql?("play") || input.eql?("p")
+    elsif input.eql?("play") || input.eql?("p") || @game_on.eql?(true)
       play
     end
   end
@@ -55,7 +54,6 @@ class Repl
       correct_response
       @controller.check_input
     elsif @game_on.eql?(true)
-      correct_response
       @controller.check_input
     end
     code_check
@@ -86,7 +84,7 @@ class Repl
   def end_flow
     @game_on = false
     response = correct_response
-    if !response.eql?('q') || !response.eql?('quit')
+    if response.eql?('p') || response.eql?('play')
       reset_variables
     elsif response.eql?('q') || response.eql?('quit')
       quit(response)
@@ -112,3 +110,5 @@ class Repl
   end
 
 end
+
+Repl.new
