@@ -14,35 +14,45 @@ class Repl
 
   def welcome
     Responses.welcome
-    start_sequence
+    start_sequence(correct_response)
   end
 
   def start_sequence(input=nil)
-    input = correct_response
+    input = @controller.input
     if input.eql?("quit") || input.eql?("q")
       quit(input)
     elsif input.eql?("instructions") || input.eql?("i")
-      Responses.instructions
-      @game_on = false
-      welcome
+      instructions
     elsif input.eql?("cheat") || input.eql?("c")
-      puts (@controller.guess.code).upcase.light_green.bold
-      play
+      cheat
     elsif play_command_check(input)
     else
       welcome
     end
   end
 
+  def instructions
+    Responses.instructions
+    @game_on = false
+    welcome
+  end
+
+  def cheat
+    puts "Here is your cheat code: "
+    print (@controller.guess.code).upcase.light_green.bold
+    play
+  end
+
   def play_command_check(input)
-    # binding.pry
     if input.eql?('medium') || input.eql?('m')
       @controller.guess.code = CodeGenerator.generate(level=5)
       play(input='medium')
     elsif input.eql?('hard') || input.eql?('h')
       @controller.guess.code = CodeGenerator.generate(level=6)
       play(input='hard')
-    elsif input.eql?("play") || input.eql?("p") || @game_on.eql?(true)
+    elsif @game_on.eql?(true)
+      play
+    elsif input.eql?("play") || input.eql?("p")
       play
     end
   end
@@ -54,6 +64,7 @@ class Repl
       correct_response
       @controller.check_input
     elsif @game_on.eql?(true)
+      correct_response
       @controller.check_input
     end
     code_check
@@ -97,8 +108,8 @@ class Repl
     @controller.timer.start_game = false
     @controller.timer.end_game = false
     @controller.rows = []
-    @controller.guess.code = CodeGenerator.generate
-    start_sequence
+    @controller.guess.code = CodeGenerator.generate(level=4)
+    welcome
   end
 
   def quit(input)

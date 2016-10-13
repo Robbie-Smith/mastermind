@@ -34,11 +34,11 @@ module Responses
   end
 
   def guess_response_2
-    puts "Your input is to short."
+    puts "Your input is too short."
   end
 
   def guess_response_3
-    puts "Your input is to long."
+    puts "Your input is too long."
   end
 
   def game_start(input)
@@ -72,11 +72,7 @@ module Responses
   end
 
   def instructions
-    puts "The goal of mastermind is guess the the secret code.
-    \nYou will start with four color combinations: #{BLUE}, #{RED}, #{GREEN}, #{YELLOW}.
-    \nMastermind defaults to a beginner sequence, for an intermediate challenge type (m)edium
-    or (h)ard for a difficult challenge.
-    \nYou could also type 'cheat' or 'c' to see the code."
+    puts "The goal of mastermind is guess the the secret code. \nYou will start with four color combinations: #{BLUE}, #{RED}, #{GREEN}, #{YELLOW}.\nMastermind defaults to a beginner sequence, for an intermediate challenge type (m)edium or (h)ard for a difficult challenge.\nYou could also type 'cheat' or 'c' to see the code."
   end
 
 

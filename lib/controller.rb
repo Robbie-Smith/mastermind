@@ -27,13 +27,15 @@ class Controller
     if guess.correct_code.eql?(false)
       @previous_input << input
       guess.user_input = input
+      @validate.valid = false
       @validate.check_start(guess.user_input,guess.code)
       start
     end
   end
 
   def start
-    if @validate.valid.eql?(true) && @previous_input.include?(input)
+    check_input unless @previous_input.include?(input)
+    if @validate.valid.eql?(true)
       time_start
       guess.start
       print_guess
@@ -48,7 +50,8 @@ class Controller
   end
 
   def print_guess
-    if guess.correct_code.eql?(false)
+    # binding.pry
+    if guess.correct_code.eql?(false) && @validate.valid.eql?(true)
       element = guess.element_holder[:element]
       position = guess.element_holder[:position]
       counter = guess.counter
