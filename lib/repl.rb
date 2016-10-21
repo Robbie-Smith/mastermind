@@ -1,6 +1,5 @@
 require_relative "controller"
 require_relative "responses"
-require 'pry'
 require 'Kimble'
 require 'Colorize'
 class Repl

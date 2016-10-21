@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (0.8.1)
+    kimble (0.0.3)
+    terminal-table (1.7.0)
+      unicode-display_width (~> 1.1)
+    unicode-display_width (1.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  colorize
+  kimble
+  terminal-table
+
+BUNDLED WITH
+   1.12.5
