@@ -1,4 +1,4 @@
-require_relative "responses"
+require "./lib/responses"
 class Validator
   include Responses
 

@@ -1,7 +1,6 @@
-require_relative "controller"
-require_relative "responses"
-require 'Kimble'
-require 'Colorize'
+require "./lib/controller"
+require "./lib/responses"
+
 class Repl
   include Responses
 

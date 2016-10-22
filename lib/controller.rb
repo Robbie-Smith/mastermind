@@ -1,10 +1,8 @@
-require_relative "guesser"
-require_relative "timer"
-require_relative "code_generator"
-require_relative "responses"
-require_relative "validate"
-require 'Colorize'
-require 'terminal-table'
+require "./lib/guesser"
+require "./lib/timer"
+require "./lib/code_generator"
+require "./lib/responses"
+require "./lib/validate"
 
 class Controller
   include CodeGenerator

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-# A sample Gemfile
+
 source "https://rubygems.org"
 
-gem "colorize"
-gem "terminal-table"
-gem "kimble"
+gem "colorize", require: true
+gem "terminal-table", require: true
+gem "kimble", require: true

@@ -1,4 +1,6 @@
-require 'colorize'
+require 'bundler/setup'
+Bundler.require(:default)
+
 module Responses
   extend self
   include Colorize
